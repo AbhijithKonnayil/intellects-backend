@@ -19,4 +19,4 @@ class ParentProfile(models.Model):
     parent = models.OneToOneField(User, on_delete=models.CASCADE)
 
     def __str__(self):
-        return '{}'.format(self.student.username)
+        return '{}'.format(self.parent.username)
