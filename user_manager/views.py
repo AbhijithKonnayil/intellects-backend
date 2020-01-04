@@ -3,7 +3,7 @@ from rest_framework.response import Response
 from django.contrib.auth import login, logout, authenticate
 
 from rest_framework.views import APIView
-from rest_framework.permissions import AllowAny
+from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework.authentication import TokenAuthentication, SessionAuthentication
 from rest_framework.status import (
     HTTP_401_UNAUTHORIZED,
@@ -20,14 +20,12 @@ from .serializers import UserSerializer
 class UserLoginAPIView(APIView):
     permission_classes = [AllowAny]
     serializer_class = UserSerializer
-    authentication_classes = [TokenAuthentication ]
+    authentication_classes = [TokenAuthentication]
 
     def post(self, request, *args, **kwargs):
         data = request.data
-        print("data - >" , data)
         try:
             user = User.objects.get(username=data.get('username'))
-            print("user - >",user)
             serializer = UserSerializer(user)
             new_data = serializer.data
             if authenticate(request, username=data.get('username'), password=data.get('password')):
@@ -39,3 +37,15 @@ class UserLoginAPIView(APIView):
                 return Response({}, status=HTTP_401_UNAUTHORIZED)
         except User.DoesNotExist:
             return Response({}, status=HTTP_404_NOT_FOUND)
+
+
+class TestAPIView(APIView):
+    permission_classes = [IsAuthenticated]
+    serializer_class = UserSerializer
+    authentication_classes = [TokenAuthentication]
+
+    def post(self, request, *args, **kwargs):
+        print(request.user)
+        return Response({"Auth ": request.user.username}, status=HTTP_200_OK)
+
+
