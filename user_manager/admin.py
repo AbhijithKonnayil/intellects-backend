@@ -17,7 +17,6 @@ class ParentProfileInline(admin.StackedInline):
 
 
 class UserAdmin(userAdmin):
-    pass
     inlines = [StudentProfileInline, ParentProfileInline]
 
 
