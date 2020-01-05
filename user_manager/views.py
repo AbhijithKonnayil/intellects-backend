@@ -62,3 +62,11 @@ class UserRegisterAPIView(APIView):
             return Response(new_data, status=HTTP_201_CREATED)
         except :
             return Response({'msg':'Error !! User Registration Failed.'}, status=HTTP_500_INTERNAL_SERVER_ERROR)
+
+class UserLogoutAPIView(APIView):
+    authentication_classes=[TokenAuthentication,]
+
+    def get(self,request):
+        logout(request)
+        return Response(status=204)
+
