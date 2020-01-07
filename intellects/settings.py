@@ -128,6 +128,6 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/2.2/howto/static-files/
 
 STATIC_URL = '/static/'
-
+# run 'python -m smtpd -n -c DebuggingServer localhost:1025 ' to run email server locally
 EMAIL_HOST = 'localhost'
-EMAIL_PORT = 1025git 
+EMAIL_PORT = 1025
