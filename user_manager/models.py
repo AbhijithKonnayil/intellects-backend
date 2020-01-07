@@ -14,7 +14,8 @@ class User(AbstractUser):
                 ('Phone number can have only numbers'),
                 )
     username = models.CharField('phone', max_length=10, unique=True,validators=[phone_validator])
-
+    parent = models.ForeignKey(User,on_delete=models.SET_NULL)
+    
 class StudentProfile(models.Model):
     student = models.OneToOneField(User, on_delete=models.CASCADE)
     # grades =  models.IntegerField()
@@ -25,6 +26,7 @@ class StudentProfile(models.Model):
 
 class ParentProfile(models.Model):
     parent = models.OneToOneField(User, on_delete=models.CASCADE)
+    
 
     def __str__(self):
         return '{}'.format(self.parent.username)
