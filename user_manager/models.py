@@ -14,7 +14,11 @@ class User(AbstractUser):
                 ('Phone number can have only numbers'),
                 )
     username = models.CharField('phone', max_length=10, unique=True,validators=[phone_validator])
-    parent = models.ForeignKey(User,on_delete=models.SET_NULL)
+    #parent = models.ForeignKey('User',null=True,on_delete=models.SET_NULL)
+
+    def __str__(self):
+        return '{}-{}'.format(self.id,self.username)
+    
     
 class StudentProfile(models.Model):
     student = models.OneToOneField(User, on_delete=models.CASCADE)
