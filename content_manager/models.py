@@ -35,7 +35,7 @@ class Course(models.Model):
 
 class Module(models.Model):
     title = models.CharField(max_length=100, null=False, blank=False)
-    course = models.ForeignKey(Course, on_delete=models.SET_NULL)
+    course = models.ForeignKey(Course, on_delete=models.SET_NULL,null=True)
     no = models.IntegerField(null=False, blank=False, validators=[
         MaxValueValidator(6),
         MinValueValidator(1)
@@ -79,16 +79,16 @@ class QuestionPaper(models.Model):
         MinValueValidator(2015)
     ])
     semester = models.CharField(max_length=2, choices=SEMESTER_CHOICES)
-    stream = models.CharField(max_lenght=10, choices=STREAM_CHOICE)
+    stream = models.CharField(max_length=10, choices=STREAM_CHOICE)
     link = models.CharField(max_length=500, null=False, blank=False)
-    course = models.ForeignKey(Course, on_delete=models.SET_NULL)
+    course = models.ForeignKey(Course, on_delete=models.SET_NULL,null=True)
 
     def __str__(self):
         return '{}'.format(self.id)
 
 
 class QuestionSoluntion(models.Model):
-    QuestionPaper = models.OneToOneField(QuestionPaper)
+    QuestionPaper = models.OneToOneField(QuestionPaper,on_delete=models.CASCADE)
     video_link = models.CharField(max_length=500, null=True, blank=True)
 
     def __str__(self):
