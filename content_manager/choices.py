@@ -13,3 +13,8 @@ DEPARTMENT_CHOICES = (('cse', 'Computer Science & Engineering'),
                       ('me', 'Mechanical Engineering'),
                       ('ce', 'Civil Engineering')
                       )
+
+
+def college_list():
+    COLLEGE_CHOICES = (('kte','Rajiv Gandhi Institute of Technology'),)
+    return COLLEGE_CHOICES
