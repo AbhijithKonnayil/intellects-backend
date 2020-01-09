@@ -1,5 +1,6 @@
 from django.db import models
 from django.core.validators import MaxValueValidator, MinValueValidator
+from user_manager.models import User
 
 SEMESTER_CHOICES = (('s1', 'Semester 1'),
                     ('s2', 'Semester 2'),
@@ -10,6 +11,12 @@ SEMESTER_CHOICES = (('s1', 'Semester 1'),
                     ('s7', 'Semester 7'),
                     ('s8', 'Semester 8'),
                     )
+DEPARTMENT_CHOICES = (('cse', 'Computer Science & Engineering'),
+                      ('ece', 'Electronics & Communication Engineering'),
+                      ('eee', 'Electrical & Electronics Engineering'),
+                      ('me', 'Mechanical Engineering'),
+                      ('ce', 'Civil Engineering')
+                      )
 
 
 class Course(models.Model):
@@ -20,6 +27,7 @@ class Course(models.Model):
         MinValueValidator(1)
     ])
     semester = models.CharField(max_length=2, choices=SEMESTER_CHOICES)
+    department = models.CharField(max_length=4, choices=DEPARTMENT_CHOICES)
 
     def __str__(self):
         return '{}'.format(self.id)
@@ -36,7 +44,7 @@ class Module(models.Model):
         MaxValueValidator(100),
         MinValueValidator(1)
     ])
-
+    #notes = models.CharField()
     def __str__(self):
         return '{}'.format(self.id)
 
@@ -51,12 +59,13 @@ class Topic(models.Model):
 
 
 class VideoLecture(models.Model):
-    
+
     def __str__(self):
         return '{}'.format(self.id)
 
 
 class VideoComment(models.Model):
+    user = models.ForeignKey(User,on_delete=models.CASCADE)
     comment = models.CharField(max_length=1000, null=False, blank=False)
 
     def __str__(self):
@@ -72,13 +81,15 @@ class QuestionPaper(models.Model):
     semester = models.CharField(max_length=2, choices=SEMESTER_CHOICES)
     stream = models.CharField(max_lenght=10, choices=STREAM_CHOICE)
     link = models.CharField(max_length=500, null=False, blank=False)
-    video_link = models.CharField(max_length=500, null=True, blank=True)
-    course = models.ForeignKey(Course,on_delete=models.SET_NULL)
+    course = models.ForeignKey(Course, on_delete=models.SET_NULL)
+
     def __str__(self):
         return '{}'.format(self.id)
 
 
 class QuestionSoluntion(models.Model):
     QuestionPaper = models.OneToOneField(QuestionPaper)
+    video_link = models.CharField(max_length=500, null=True, blank=True)
+
     def __str__(self):
         return '{}'.format(self.id)
