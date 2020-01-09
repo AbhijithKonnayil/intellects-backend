@@ -3,6 +3,7 @@ from django.core.exceptions import ValidationError
 from django.contrib.auth.models import AbstractUser
 from django.contrib.postgres.fields import HStoreField
 
+from content_manager.choices import SEMESTER_CHOICES, DEPARTMENT_CHOICES
 
 class User(AbstractUser):
     def phone_validator(value):
@@ -22,6 +23,8 @@ class User(AbstractUser):
     
 class StudentProfile(models.Model):
     student = models.OneToOneField(User, on_delete=models.CASCADE)
+    semester = semester = models.CharField(max_length=2, choices=SEMESTER_CHOICES)
+    department = models.CharField(max_length=4, choices=DEPARTMENT_CHOICES)
     # grades =  models.IntegerField()
 
     def __str__(self):
