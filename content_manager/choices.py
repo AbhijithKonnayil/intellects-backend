@@ -14,7 +14,9 @@ DEPARTMENT_CHOICES = (('cse', 'Computer Science & Engineering'),
                       ('ce', 'Civil Engineering')
                       )
 
+COLLEGE_CHOICES = (('nil','No College Selected'),
+    ('kte','Rajiv Gandhi Institute of Technology'),)
 
 def college_list():
-    COLLEGE_CHOICES = (('kte','Rajiv Gandhi Institute of Technology'),)
+    
     return COLLEGE_CHOICES

@@ -1,14 +1,15 @@
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin as userAdmin
+from django.utils.translation import gettext, gettext_lazy as _
 from .models import User, StudentProfile, ParentProfile
 
-#Admin Site Modifications
-admin.site.site_header="Intellects Administration"
+# Admin Site Modifications
+admin.site.site_header = "Intellects Administration"
 admin.site.site_title = "Intellects"
 admin.site.index_title = "Intellects Site Administration"
 
 
-class StudentProfileInline(admin.TabularInline):
+class StudentProfileInline(admin.StackedInline):
     model = StudentProfile
 
 
@@ -17,8 +18,24 @@ class ParentProfileInline(admin.StackedInline):
 
 
 class UserAdmin(userAdmin):
-    inlines = [StudentProfileInline, ParentProfileInline]
-
+    #inlines = [ParentProfileInline,StudentProfileInline]
+    
+    fieldsets = (
+        (None, {'fields': ('username', 'password')}),
+        (_('Personal info'), {
+            'fields': ('first_name', 'last_name', 'email')}),
+        (_('Permissions'), {
+            'fields': ('is_active', 'is_staff', 'is_superuser', 'is_student', 'is_parent', 'groups', 'user_permissions'),
+        }),
+        (_('Important dates'), {'fields': ('last_login', 'date_joined')}),
+    )
+    add_fieldsets = (
+        (None, {
+            'classes': ('wide',),
+            'fields': ('username', 'is_parent', 'is_student', 'password1', 'password2'),
+        }),
+    )
+    
 
 admin.site.register(User, UserAdmin)
 admin.site.register(StudentProfile)

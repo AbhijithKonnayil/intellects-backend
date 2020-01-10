@@ -3,7 +3,7 @@ from django.core.exceptions import ValidationError
 from django.contrib.auth.models import AbstractUser
 from django.contrib.postgres.fields import HStoreField
 
-from content_manager.choices import SEMESTER_CHOICES, DEPARTMENT_CHOICES, college_list
+from content_manager.choices import SEMESTER_CHOICES, DEPARTMENT_CHOICES, COLLEGE_CHOICES
 
 
 class User(AbstractUser):
@@ -17,6 +17,16 @@ class User(AbstractUser):
             )
     username = models.CharField(
         'phone', max_length=10, unique=True, validators=[phone_validator])
+    is_student = models.BooleanField(default=False)
+    is_parent = models.BooleanField(default=False)
+
+    def save(self, *args, **kwargs):
+        super(User, self).save(*args, **kwargs)
+        print(type(self))
+        if self.is_student:
+            StudentProfile.objects.create(student=self)
+        if self.is_parent:
+            ParentProfile.objects.create(parent=self)
 
     def __str__(self):
         return '{}-{}'.format(self.id, self.username)
@@ -38,6 +48,7 @@ class StudentProfile(models.Model):
     register_no = models.CharField(max_length=11, null=True, blank=True)
     parent = models.ForeignKey(
         ParentProfile, null=True, on_delete=models.SET_NULL)
+    college = models.CharField(max_length=5,choices=COLLEGE_CHOICES,default='nill')
     # grades =  models.IntegerField()
 
     def __str__(self):
