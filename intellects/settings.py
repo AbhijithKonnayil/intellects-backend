@@ -42,7 +42,8 @@ INSTALLED_APPS = [
     'rest_framework.authtoken',
     'rest_auth',
     'user_manager',
-    'content_manager'
+    'content_manager',
+    'discussion_platform'
 ]
 
 MIDDLEWARE = [
