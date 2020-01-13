@@ -11,22 +11,43 @@ class Tag(models.Model):
     def __str__(self):
         return '{}'.format(self.title)
 
+
 class Post(models.Model):
     POST_TYPE_CHOICES = (('q', 'Question'), ('a', 'Answer'))
 
-    def AnswerValidator(value, self):
-        if not self.post_type == 'a' and self.is_answer:
-            raise ValidationError(
-                ('Question cannot be accepted as anwser'),)
+    def clean(self, *args, **kwargs):
+        if self.post_type == 'a':
+            if self.answer:
+                raise ValidationError(
+                    ('Answer: Answer cannot have as anwser'),)
+            if self.question.post_type == 'a':
+                raise ValidationError(
+                    ('Answer: Answer cannot be assigned as question'),)
+
+        if self.post_type == 'q':
+            if self.question:
+                raise ValidationError(
+                    ('Question: Question cannot have as question'),)
+            if self.answer.post_type == 'q':
+                raise ValidationError(
+                    ('Question: Question cannot be assigned as answer'),)
+        super(Post, self).save(*args, **kwargs)
 
     text = models.CharField(max_length=1000, null=False, blank=False)
     by = models.ForeignKey(User, on_delete=models.CASCADE)
     tags = models.ManyToManyField(Tag)
-    upvotes = models.ManyToManyField(User,related_name='upvotes')
-    downvotes = models.ManyToManyField(User,related_name='downvotes')
+    upvotes = models.ManyToManyField(User, related_name='upvotes', blank=True)
+    downvotes = models.ManyToManyField(
+        User, related_name='downvotes', blank=True)
     post_type = models.CharField(max_length=50, choices=POST_TYPE_CHOICES)
-    question = models.ForeignKey('discussion_platform.Post',on_delete=models.CASCADE,null=True,blank=True,related_name='questions')
-    answer = models.OneToOneField('discussion_platform.Post',on_delete=models.CASCADE,null=True,blank=True,related_name='answer_of')
+    question = models.ForeignKey('discussion_platform.Post',
+                                 on_delete=models.CASCADE,
+                                 null=True, blank=True,
+                                 related_name='questions',)
+    answer = models.OneToOneField('discussion_platform.Post',
+                                  on_delete=models.CASCADE,
+                                  null=True, blank=True,
+                                  related_name='answer_of',)
 
     def __str__(self):
         return '{}'.format(self.text)
@@ -39,4 +60,3 @@ class Comment (models.Model):
 
     def __str__(self):
         return '{}'.format(self.text)
-
