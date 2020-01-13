@@ -1,11 +1,11 @@
 from django.shortcuts import render
-from rest_framework.response import Response
 from django.contrib.auth import login, logout, authenticate
 from django.contrib.auth.hashers import make_password
 
+from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework.permissions import AllowAny, IsAuthenticated
-from rest_framework.authentication import TokenAuthentication, SessionAuthentication
+from rest_framework.authentication import TokenAuthentication
 from rest_framework.status import (
     HTTP_401_UNAUTHORIZED,
     HTTP_404_NOT_FOUND,

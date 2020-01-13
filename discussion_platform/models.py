@@ -22,10 +22,11 @@ class Post(models.Model):
     text = models.CharField(max_length=1000, null=False, blank=False)
     by = models.ForeignKey(User, on_delete=models.CASCADE)
     tags = models.ManyToManyField(Tag)
-    upvotes = models.ForeignKey(User, on_delete=models.CASCADE,related_name='upvotes')
-    downvotes = models.ForeignKey(User, on_delete=models.CASCADE,related_name='downvotes')
+    upvotes = models.ManyToManyField(User,related_name='upvotes')
+    downvotes = models.ManyToManyField(User,related_name='downvotes')
     post_type = models.CharField(max_length=50, choices=POST_TYPE_CHOICES)
-    is_answer = models.NullBooleanField(null=True, default=None)
+    question = models.ForeignKey('discussion_platform.Post',on_delete=models.CASCADE,null=True,blank=True,related_name='questions')
+    answer = models.OneToOneField('discussion_platform.Post',on_delete=models.CASCADE,null=True,blank=True,related_name='answer_of')
 
     def __str__(self):
         return '{}'.format(self.text)
