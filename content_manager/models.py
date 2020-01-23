@@ -1,6 +1,7 @@
 from django.db import models
 from django.core.validators import MaxValueValidator, MinValueValidator
 from user_manager.models import User
+from django.core.exceptions import ValidationError
 
 SEMESTER_CHOICES = (('s1', 'Semester 1'),
                     ('s2', 'Semester 2'),
@@ -34,6 +35,8 @@ class Course(models.Model):
 
 
 class Module(models.Model):
+    def validate_file(file):
+        pass
     title = models.CharField(max_length=100, null=False, blank=False)
     course = models.ForeignKey(Course, on_delete=models.SET_NULL,null=True)
     no = models.IntegerField(null=False, blank=False, validators=[
@@ -44,7 +47,7 @@ class Module(models.Model):
         MaxValueValidator(100),
         MinValueValidator(1)
     ])
-    #notes = models.CharField()
+    notes = models.FileField(upload_to='notes',validators=[validate_file])
     def __str__(self):
         return '{}'.format(self.id)
 
@@ -59,12 +62,20 @@ class Topic(models.Model):
 
 
 class VideoLecture(models.Model):
-
+    def validate_image(file_obj):
+        filesize = file_obj.file.size
+        megabyte_limit = 2.0
+        if filesize > megabyte_limit*1024*1024:
+            raise ValidationError("Max file size is %sMB" % str(megabyte_limit))
+    topic = models.ForeignKey(Topic,on_delete=models.SET_NULL,null=True)
+    thumbnail = models.ImageField(upload_to='thumbnail',validators=[validate_image])
+    src = models.CharField(max_length=500,null=False,blank=False)
     def __str__(self):
         return '{}'.format(self.id)
 
 
 class VideoComment(models.Model):
+    video = models.ForeignKey(VideoLecture,on_delete=models.CASCADE)
     user = models.ForeignKey(User,on_delete=models.CASCADE)
     comment = models.CharField(max_length=1000, null=False, blank=False)
 
