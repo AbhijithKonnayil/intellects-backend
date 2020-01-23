@@ -22,7 +22,7 @@ class Post(models.Model):
                     ('Answer: Answer cannot have as anwser'),)
             if self.question.post_type == 'a':
                 raise ValidationError(
-                    ('Answer: Answer cannot be assigned as question'),)
+                    ('Question: Answer cannot be assigned as question'),)
 
         if self.post_type == 'q':
             if self.question:
@@ -30,7 +30,7 @@ class Post(models.Model):
                     ('Question: Question cannot have as question'),)
             if self.answer.post_type == 'q':
                 raise ValidationError(
-                    ('Question: Question cannot be assigned as answer'),)
+                    ('Answer: Question cannot be assigned as answer'),)
         super(Post, self).save(*args, **kwargs)
 
     text = models.CharField(max_length=1000, null=False, blank=False)
@@ -43,11 +43,11 @@ class Post(models.Model):
     question = models.ForeignKey('discussion_platform.Post',
                                  on_delete=models.CASCADE,
                                  null=True, blank=True,
-                                 related_name='questions',)
+                                 related_name='answer_set',)
     answer = models.OneToOneField('discussion_platform.Post',
                                   on_delete=models.CASCADE,
                                   null=True, blank=True,
-                                  related_name='answer_of',)
+                                  related_name='question_set',)
 
     def __str__(self):
         return '{}'.format(self.text)
