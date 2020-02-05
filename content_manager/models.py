@@ -67,6 +67,14 @@ class VideoLecture(models.Model):
         megabyte_limit = 2.0
         if filesize > megabyte_limit*1024*1024:
             raise ValidationError("Max file size is %sMB" % str(megabyte_limit))
+
+    def clean(self, *args, **kwargs):
+        print(self.thumbnail.width)
+        if self.thumbnail.width>72: 
+            raise ValidationError("Width exceeds by %s px" % str(self.thumbnail.width-72))
+        if self.thumbnail.height>128:
+            raise ValidationError("Height exceeds by %s px" % str(self.thumbnail.height-128))
+
     topic = models.ForeignKey(Topic,on_delete=models.SET_NULL,null=True)
     thumbnail = models.ImageField(upload_to='thumbnail',validators=[validate_image])
     src = models.CharField(max_length=500,null=False,blank=False)
