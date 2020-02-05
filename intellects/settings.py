@@ -45,6 +45,7 @@ INSTALLED_APPS = [
     'content_manager',
     'discussion_platform',
     'blog_manager',
+    'sales_manager'
 ]
 
 MIDDLEWARE = [
