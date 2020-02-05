@@ -133,3 +133,6 @@ STATIC_URL = '/static/'
 # run 'python -m smtpd -n -c DebuggingServer localhost:1025 ' to run email server locally
 EMAIL_HOST = 'localhost'
 EMAIL_PORT = 1025
+
+MEDIA_ROOT = os.path.join(BASE_DIR,'media')
+MEDIA_URL = '/media/'
