@@ -43,7 +43,8 @@ INSTALLED_APPS = [
     'rest_auth',
     'user_manager',
     'content_manager',
-    'discussion_platform'
+    'discussion_platform',
+    'blog_manager',
 ]
 
 MIDDLEWARE = [
