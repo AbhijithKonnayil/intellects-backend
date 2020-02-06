@@ -19,7 +19,7 @@ class Event(models.Model):
     clicks = models.ManyToManyField(User,related_name='clicked_events')
     likes = models.ManyToManyField(User,related_name='liked_events')
     category = models.CharField(max_length=20,choices=EVENT_CATEGORY_CHOICES)
-
+    fees = models.DecimalField(max_digits=7,decimal_places=2)
     def __str__(self):
         return '{}'.format(self.title)
     
