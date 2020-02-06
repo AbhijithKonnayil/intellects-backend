@@ -20,6 +20,8 @@ class Event(models.Model):
     likes = models.ManyToManyField(User,related_name='liked_events')
     category = models.CharField(max_length=20,choices=EVENT_CATEGORY_CHOICES)
     fees = models.DecimalField(max_digits=7,decimal_places=2)
+    sponsored = models.BooleanField(default=False)
+    
     def __str__(self):
         return '{}'.format(self.title)
     

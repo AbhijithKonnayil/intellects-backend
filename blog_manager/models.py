@@ -5,6 +5,8 @@ class Post(models.Model):
     date_created = models.DateTimeField(auto_now_add=True)
     title = models.CharField(max_length=200,null=False,blank=False)
     content = models.CharField(max_length=4000,null=False,blank=False)
+    clicks = models.ManyToManyField(User,related_name='clicked_blog_post')
+    likes = models.ManyToManyField(User,related_name='liked_blog_post')
      
     def __str__(self):
          return "{}".format(self.title)
