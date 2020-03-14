@@ -48,6 +48,7 @@ class GradeDetails(models.Model):
     s6 = HStoreField()
     s7 = HStoreField()
     s8 = HStoreField()
+    cgpa = models.FloatField()
 
     def __str__(self):
         return '{}'.format(self.register_no)
@@ -61,7 +62,7 @@ class StudentProfile(models.Model):
     parent = models.ForeignKey(
         ParentProfile, null=True, on_delete=models.SET_NULL)
     college = models.CharField(max_length=5,choices=COLLEGE_CHOICES,default='nill')
-    grade = models.ForeignKey(GradeDetails,on_delete=models.SET_NULL)
+    grades = models.ForeignKey(GradeDetails,on_delete=models.SET_NULL,null=True)
     def __str__(self):
         return '{}'.format(self.student.username)
 
