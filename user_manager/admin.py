@@ -12,10 +12,8 @@ admin.site.index_title = "Intellects Site Administration"
 class StudentProfileInline(admin.StackedInline):
     model = StudentProfile
 
-
 class ParentProfileInline(admin.StackedInline):
     model = ParentProfile
-
 
 class UserAdmin(userAdmin):
     #inlines = [ParentProfileInline,StudentProfileInline]
@@ -35,9 +33,11 @@ class UserAdmin(userAdmin):
             'fields': ('username', 'is_parent', 'is_student', 'password1', 'password2'),
         }),
     )
-    
+
+class StudentProfileAdmin(admin.ModelAdmin):
+    fields = ('student','register_no','semester','department','parent','college','s1','s2','s3','s4','s5','s6','s7','s8',)
 
 admin.site.register(User, UserAdmin)
-admin.site.register(StudentProfile)
+admin.site.register(StudentProfile, StudentProfileAdmin)
 admin.site.register(ParentProfile)
 admin.site.register(GradeDetails)

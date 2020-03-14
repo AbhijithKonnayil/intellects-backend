@@ -50,10 +50,15 @@ class GradeDetails(models.Model):
     s8 = HStoreField()
     cgpa = models.FloatField()
 
+    class Meta:
+        ordering = ["register_no"]
+        verbose_name_plural = "Grade Details"
+
     def __str__(self):
         return '{}'.format(self.register_no)
+
     
-class StudentProfile(models.Model):
+class StudentProfile(GradeDetails):
     student = models.OneToOneField(User, on_delete=models.CASCADE)
     semester = semester = models.CharField(
         max_length=2, choices=SEMESTER_CHOICES, null=True, blank=True)
@@ -62,7 +67,7 @@ class StudentProfile(models.Model):
     parent = models.ForeignKey(
         ParentProfile, null=True, on_delete=models.SET_NULL)
     college = models.CharField(max_length=5,choices=COLLEGE_CHOICES,default='nill')
-    grades = models.ForeignKey(GradeDetails,on_delete=models.SET_NULL,null=True)
+    
     def __str__(self):
         return '{}'.format(self.student.username)
 
