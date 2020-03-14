@@ -1,7 +1,7 @@
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin as userAdmin
 from django.utils.translation import gettext, gettext_lazy as _
-from .models import User, StudentProfile, ParentProfile
+from .models import User, StudentProfile, ParentProfile, GradeDetails
 
 # Admin Site Modifications
 admin.site.site_header = "Intellects Administration"
@@ -40,3 +40,4 @@ class UserAdmin(userAdmin):
 admin.site.register(User, UserAdmin)
 admin.site.register(StudentProfile)
 admin.site.register(ParentProfile)
+admin.site.register(GradeDetails)

@@ -38,7 +38,20 @@ class ParentProfile(models.Model):
     def __str__(self):
         return '{}'.format(self.parent.username)
 
+class GradeDetails(models.Model):
+    register_no = models.CharField(max_length=11, null=True, blank=True)
+    s1 = HStoreField()
+    s2 = HStoreField()
+    s3 = HStoreField()
+    s4 = HStoreField()
+    s5 = HStoreField()
+    s6 = HStoreField()
+    s7 = HStoreField()
+    s8 = HStoreField()
 
+    def __str__(self):
+        return '{}'.format(self.register_no)
+    
 class StudentProfile(models.Model):
     student = models.OneToOneField(User, on_delete=models.CASCADE)
     semester = semester = models.CharField(
@@ -48,12 +61,7 @@ class StudentProfile(models.Model):
     parent = models.ForeignKey(
         ParentProfile, null=True, on_delete=models.SET_NULL)
     college = models.CharField(max_length=5,choices=COLLEGE_CHOICES,default='nill')
-    # grades =  models.IntegerField()
-
+    grade = models.ForeignKey(GradeDetails,on_delete=models.SET_NULL)
     def __str__(self):
         return '{}'.format(self.student.username)
 
-class GradeDetails(models.Model):
-    student = models.OneToOneField(User, on_delete=models.CASCADE)
-    register_no = models.CharField(max_length=11, null=True, blank=True)
-    
