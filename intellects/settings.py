@@ -25,7 +25,7 @@ SECRET_KEY = 'p=jsrl$f!9z5)h%3af8b^37r2ml)h2ju!ayov=1ngfv80mhgz)'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['192.168.0.111','192.168.43.96','127.0.0.1']
 
 
 # Application definition
@@ -85,10 +85,15 @@ AUTH_USER_MODEL = 'user_manager.User'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME': 'intellects_db',
+        'USER': 'intellects_admin',
+        'PASSWORD': 'wordpass',
+        'HOST': 'localhost',
+        'PORT': '5432',
     }
 }
+
 
 
 # Password validation

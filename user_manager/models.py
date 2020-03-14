@@ -45,7 +45,6 @@ class StudentProfile(models.Model):
         max_length=2, choices=SEMESTER_CHOICES, null=True, blank=True)
     department = models.CharField(
         max_length=4, choices=DEPARTMENT_CHOICES, null=True, blank=True)
-    register_no = models.CharField(max_length=11, null=True, blank=True)
     parent = models.ForeignKey(
         ParentProfile, null=True, on_delete=models.SET_NULL)
     college = models.CharField(max_length=5,choices=COLLEGE_CHOICES,default='nill')
@@ -53,3 +52,8 @@ class StudentProfile(models.Model):
 
     def __str__(self):
         return '{}'.format(self.student.username)
+
+class GradeDetails(models.Model):
+    student = models.OneToOneField(User, on_delete=models.CASCADE)
+    register_no = models.CharField(max_length=11, null=True, blank=True)
+    
