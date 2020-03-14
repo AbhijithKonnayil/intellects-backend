@@ -40,15 +40,15 @@ class ParentProfile(models.Model):
 
 class GradeDetails(models.Model):
     register_no = models.CharField(max_length=11, null=True, blank=True)
-    s1 = HStoreField()
-    s2 = HStoreField()
-    s3 = HStoreField()
-    s4 = HStoreField()
-    s5 = HStoreField()
-    s6 = HStoreField()
-    s7 = HStoreField()
-    s8 = HStoreField()
-    cgpa = models.FloatField()
+    s1 = HStoreField(null=True,blank=True)
+    s2 = HStoreField(null=True,blank=True)
+    s3 = HStoreField(null=True,blank=True)
+    s4 = HStoreField(null=True,blank=True)
+    s5 = HStoreField(null=True,blank=True)
+    s6 = HStoreField(null=True,blank=True)
+    s7 = HStoreField(null=True,blank=True)
+    s8 = HStoreField(null=True,blank=True)
+    cgpa = models.FloatField(default=0)
 
     class Meta:
         ordering = ["register_no"]
@@ -67,7 +67,7 @@ class StudentProfile(GradeDetails):
     parent = models.ForeignKey(
         ParentProfile, null=True, on_delete=models.SET_NULL)
     college = models.CharField(max_length=5,choices=COLLEGE_CHOICES,default='nill')
-    
+
     def __str__(self):
         return '{}'.format(self.student.username)
 
